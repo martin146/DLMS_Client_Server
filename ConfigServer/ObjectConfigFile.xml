@@ -1,0 +1,887 @@
+<Root>
+    <HatelConfiguration>
+        <OutQueue>/MyQueueIn</OutQueue>
+        <InQueue>/MyQueueOut</InQueue>
+        <MaxMsgLen>4096</MaxMsgLen>
+        <Timeout>1</Timeout> <!-- seconds -->
+    </HatelConfiguration>
+    <DlmsServerPathsConfiguration>
+        <PathToSaveProfileGenericData>/home/hatel/DLMS/DLMS_Client_Server/build</PathToSaveProfileGenericData>
+        <PathToLogFile>/home/student/Documents/DLMS_AIS_Server_Application-master/DLMS_Client_Server/Log/ServerLog.txt</PathToLogFile>
+    </DlmsServerPathsConfiguration>
+    <DlmsServerConfiguration
+            name="AIS Raspberry"
+            logicalAddress="0x7f"
+            physicalAddress="0x7e"
+            addressSize="2"
+            interfaceType="DLMS_INTERFACE_TYPE_WRAPPER"
+            useLogicalNameReferencing="true"
+            traceLevel="VERBOSE"
+    /> <!-- ipTransportProtocol -->
+    <Objects>
+        <Clock
+            obis="0.0.1.0.0.255"
+            timeZone="1"
+            status="DLMS_CLOCK_STATUS_OK,
+                    DLMS_CLOCK_STATUS_DAYLIGHT_SAVE_ACTIVE"
+            daylightSavingsBegin="03/28/* 02:00:00"
+            daylightSavingsEnd="10/31/* 03:00:00"
+            daylightSavingsDeviation="60"
+            daylightSavingsEnabled="true"
+            clockBase="DLMS_CLOCK_BASE_FREQUENCY_50"
+
+        />
+        <Data
+            valueAccessMode="DLMS_ACCESS_MODE_READ"
+            obis="0.0.42.0.0.255"
+            value="AIS0000000000000"
+            description="Logical device name" />
+        <Data
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                obis="0.0.43.1.1.255"
+                value="1"
+                description="Invocation counter for security setup 1" />
+        <Data
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                obis="0.0.43.1.2.255"
+                value="1"
+                description="Invocation counter for security setup 2" />
+        <Data
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                obis="0.0.43.1.3.255"
+                value="1"
+                description="Invocation counter for security setup 3" />
+        <Data
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                obis="0.0.43.1.4.255"
+                value="1"
+                description="Invocation counter for security setup 4" />
+        <Data
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                obis="1.0.0.2.0.255"
+                value="AIS FW 1.0"
+                description="Firmware version" />
+        <!--<IecHdlcSetup
+            obis="0.0.22.0.0.255"
+            comm_speed="DLMS_BAUD_RATE_9600"
+            windowSizeTransmit="1"
+            windowSizeReceive="1"
+            maxInfoLengthTransmit="128"
+            maxInfoLengthReceive="128"
+            interOctetTimeout="30"
+            inactivityTimeout="120"
+        />-->
+        <!-- deviceAddress="0x79" - set automatically with dlmsServerConfiguration(physicalAddress) -->
+        <TcpUdpSetup
+            obis="0.0.25.0.0.255"
+            port="4059"
+            ipReference="0.0.25.1.0.255"
+            maximumSegmentSize="576"
+            maximumSimultaneousConnections="1"
+            inactivityTimeout="120"
+        />
+        <IPv4Setup
+            obis="0.0.25.1.0.255"
+            DL_reference="0.0.25.2.0.255"
+            IP_address="192.168.28.129"
+            multicastIPaddresses="192.200.0.1,192.200.0.2"
+            subnet_mask="255.255.255.0"
+            gateway_IP_address="192.168.28.1"
+            use_DHCP_flag="false"
+            primary_DNS_address="8.8.8.8"
+            secondary_DNS_address="4.4.4.4"
+        >
+            <!--<IP_options>
+                <IP_option
+                    ipOptionType="IP_OPTION_TYPE_DLMS_SECURITY"
+                    ipOptionData="abeceda"
+                />
+            </IP_options>-->
+        </IPv4Setup>
+        <MacAddressSetup
+            obis="0.0.25.2.0.255"
+            MAC_address="00:0a:95:9d:68:16"
+        />
+        <SecuritySetup
+                obis="0.0.43.0.1.255"
+                version="1"
+                securityPolicy="DLMS_SECURITY_POLICY1_NOTHING"
+                securitySuite="DLMS_SECURITY_SUITE_V1"
+                serverSystemTitle="MCSABCDE"
+                invocationCounterReference="0.0.43.1.1.255"
+                description="Security setup for association 1"
+        >
+            <!--<Certificates>
+                <Certificate
+                        entity="DLMS_CERTIFICATE_ENTITY_SERVER"
+                        type="DLMS_CERTIFICATE_TYPE_TLS"
+                        serialNumber="123456789"
+                        issuer="Issuer"
+                        subject="Subject"
+                        subjectAltName="SubjectAltName"
+                />
+            </Certificates>-->
+        </SecuritySetup>
+        <SecuritySetup
+                obis="0.0.43.0.2.255"
+                version="1"
+                securityPolicy="DLMS_SECURITY_POLICY1_NOTHING"
+                securitySuite="DLMS_SECURITY_SUITE_V1"
+                serverSystemTitle="MCSABCDE"
+                invocationCounterReference="0.0.43.1.2.255"
+                description="Security setup for association 2"
+        >
+            <!--<Certificates>
+                <Certificate
+                    entity="DLMS_CERTIFICATE_ENTITY_SERVER"
+                    type="DLMS_CERTIFICATE_TYPE_TLS"
+                    serialNumber="123456789"
+                    issuer="Issuer"
+                    subject="Subject"
+                    subjectAltName="SubjectAltName"
+                />
+            </Certificates>-->
+        </SecuritySetup>
+        <SecuritySetup
+                obis="0.0.43.0.3.255"
+                version="1"
+                securityPolicy="DLMS_SECURITY_POLICY1_NOTHING"
+                securitySuite="DLMS_SECURITY_SUITE_V1"
+                serverSystemTitle="MCSABCDE"
+                invocationCounterReference="0.0.43.1.3.255"
+                description="Security setup for association 3"
+        >
+            <!--<Certificates>
+                <Certificate
+                    entity="DLMS_CERTIFICATE_ENTITY_SERVER"
+                    type="DLMS_CERTIFICATE_TYPE_TLS"
+                    serialNumber="123456789"
+                    issuer="Issuer"
+                    subject="Subject"
+                    subjectAltName="SubjectAltName"
+                />
+            </Certificates>-->
+        </SecuritySetup>
+        <SecuritySetup
+                obis="0.0.43.0.4.255"
+                version="1"
+                securityPolicy="DLMS_SECURITY_POLICY1_NOTHING"
+                securitySuite="DLMS_SECURITY_SUITE_V1"
+                serverSystemTitle="MCSABCDE"
+                invocationCounterReference="0.0.43.1.4.255"
+                description="Security setup for association 4"
+        >
+            <!--<Certificates>
+                <Certificate
+                    entity="DLMS_CERTIFICATE_ENTITY_SERVER"
+                    type="DLMS_CERTIFICATE_TYPE_TLS"
+                    serialNumber="123456789"
+                    issuer="Issuer"
+                    subject="Subject"
+                    subjectAltName="SubjectAltName"
+                />
+            </Certificates>-->
+        </SecuritySetup>
+        <Register
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                cid="DLMS_IRQ"
+                type="INT64"
+                obis="1.1.11.6.0.255"
+                unit="DLMS_UNIT_CURRENT"
+                scaler="1"
+                description="Požadovaný max. odběr - AC proud" />
+        <Register
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                cid="DLMS_PE"
+                type="INT64"
+                obis="1.1.1.8.0.255"
+                unit="DLMS_UNIT_ENERGY"
+                scaler="1"
+                description="Celková energie" />
+        <Register
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                cid="DLMS_PP"
+                type="INT64"
+                obis="1.1.1.6.0.255"
+                unit="DLMS_UNIT_ACTIVE_POWER"
+                scaler="1"
+                description="Příkon nabíječky" />
+        <Register
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                cid="DLMS_MP"
+                type="INT64"
+                obis="1.1.2.6.0.255"
+                unit="DLMS_UNIT_ACTIVE_POWER"
+                scaler="1"
+                description="Výkon na výstupu nabíječky" />
+        <Register
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                cid="DLMS_I1"
+                type="INT64"
+                obis="1.1.31.7.0.255"
+                unit="DLMS_UNIT_VOLTAGE"
+                scaler="1"
+                description="Vstupní I L1" />
+        <Register
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                cid="DLMS_I2"
+                type="INT64"
+                obis="1.1.51.7.0.255"
+                unit="DLMS_UNIT_VOLTAGE"
+                scaler="1"
+                description="Vstupní I L2" />
+        <Register
+                valueAccessMode="DLMS_ACCESS_MODE_READ"
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                cid="DLMS_I3"
+                type="INT64"
+                obis="1.1.71.7.0.255"
+                unit="DLMS_UNIT_VOLTAGE"
+                scaler="1"
+                description="Vstupní I L3" />
+        <ProfileGeneric
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                captureMethod="DLMS_METHOD_ACCESS_MODE_ACCESS"
+                obis="1.0.99.1.1.255"
+                obisSavedData="0.0.1.0.0.255,1.1.11.6.0.255"
+                capturePeriod="900"
+                sortMethod="DLMS_SORT_METHOD_FIFO"
+                sortObjectObis="1.1.11.6.0.255"
+                profileEntries="4320"
+                description="Profil pro Požadovaný max. odběr - AC proud"
+        />
+        <ProfileGeneric
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                captureMethod="DLMS_METHOD_ACCESS_MODE_ACCESS"
+                obis="1.0.99.1.2.255"
+                obisSavedData="0.0.1.0.0.255,1.1.1.8.0.255"
+                capturePeriod="900"
+                sortMethod="DLMS_SORT_METHOD_FIFO"
+                sortObjectObis="1.1.1.8.0.255"
+                profileEntries="4320"
+                description="Profil pro celkovou energii"
+         />
+        <ProfileGeneric
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                captureMethod="DLMS_METHOD_ACCESS_MODE_ACCESS"
+                obis="1.0.99.1.3.255"
+                obisSavedData="0.0.1.0.0.255,1.1.1.6.0.255"
+                capturePeriod="900"
+                sortMethod="DLMS_SORT_METHOD_FIFO"
+                sortObjectObis="1.1.1.6.0.255"
+                profileEntries="4320"
+                description="Profil pro příkon nabíječky"
+        />
+        <ProfileGeneric
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                captureMethod="DLMS_METHOD_ACCESS_MODE_ACCESS"
+                obis="1.0.99.1.4.255"
+                obisSavedData="0.0.1.0.0.255,1.1.2.6.0.255"
+                capturePeriod="900"
+                sortMethod="DLMS_SORT_METHOD_FIFO"
+                sortObjectObis="1.1.2.6.0.255"
+                profileEntries="4320"
+                description="Profil pro výkon na výstupu nabíječky"
+        />
+        <ProfileGeneric
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                captureMethod="DLMS_METHOD_ACCESS_MODE_ACCESS"
+                obis="1.0.99.1.5.255"
+                obisSavedData="0.0.1.0.0.255,1.1.31.7.0.255"
+                capturePeriod="900"
+                sortMethod="DLMS_SORT_METHOD_FIFO"
+                sortObjectObis="1.1.31.7.0.255"
+                profileEntries="4320"
+                description="Profil pro vstupní L1"
+        />
+        <ProfileGeneric
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                captureMethod="DLMS_METHOD_ACCESS_MODE_ACCESS"
+                obis="1.0.99.1.6.255"
+                obisSavedData="0.0.1.0.0.255,1.1.51.7.0.255"
+                capturePeriod="900"
+                sortMethod="DLMS_SORT_METHOD_FIFO"
+                sortObjectObis="1.1.51.7.0.255"
+                profileEntries="4320"
+                description="Profil pro vstupní L2"
+        />
+        <ProfileGeneric
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                captureMethod="DLMS_METHOD_ACCESS_MODE_ACCESS"
+                obis="1.0.99.1.7.255"
+                obisSavedData="0.0.1.0.0.255,1.1.71.7.0.255"
+                capturePeriod="900"
+                sortMethod="DLMS_SORT_METHOD_FIFO"
+                sortObjectObis="1.1.71.7.0.255"
+                profileEntries="4320"
+                description="Profil pro vstupní L3"
+        />
+        <ProfileGeneric
+                resetAccessMode="DLMS_METHOD_ACCESS_MODE_NONE"
+                captureMethod="DLMS_METHOD_ACCESS_MODE_ACCESS"
+                obis="1.0.99.1.8.255"
+                obisSavedData="0.0.1.0.0.255,1.1.11.6.0.255,1.1.1.8.0.255,1.1.1.6.0.255,1.1.2.6.0.255,1.1.31.7.0.255,1.1.51.7.0.255,1.1.71.7.0.255"
+                capturePeriod="900"
+                sortMethod="DLMS_SORT_METHOD_FIFO"
+                sortObjectObis="1.1.1.8.0.255"
+                profileEntries="4320"
+                description="Profil pro Požadovaný max. odběr - AC proud"
+        />
+        <AssociationLogicalName
+                obis="0.0.40.0.0.255"
+        />
+        <AssociationLogicalName
+                obis="0.0.40.0.1.255"
+                secret=""
+                securitySetupReference="0.0.43.0.1.255"
+                userList="todo"
+        >
+            <ObjectList>
+                <!--<Object obis="0.0.40.0.2.255" description="Next association" />-->
+
+                <Object obis="0.0.1.0.0.255" description="Clock">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to quarter" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to measuring period" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to minute" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to preset time" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Preset adjusting time" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Shift time" />
+                    </Methods>
+                </Object>
+
+                <Object obis="0.0.42.0.0.255" description="Logical device name"/>
+
+                <Object obis="0.0.40.0.0.255" description="Current association" />
+                <Object obis="0.0.40.0.1.255" description="This association">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+
+
+                <Object obis="1.1.1.8.0.255" description="Register">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+            </ObjectList>
+            <AssociatedPartnersId
+                    clientSAP="0x10"
+            /> <!--  serverSAP= - set automatically with dlmsServerConfiguration(logicalAddress) -->
+            <ApplicationContextName
+                    jointIsoCtt="2"
+                    country="16"
+                    countryName="756"
+                    identifiedOrganization="5"
+                    dlmsUA="8"
+                    applicationContext="1"
+                    contextId="DLMS_APPLICATION_CONTEXT_NAME_LOGICAL_NAME"
+            />
+            <XDlmsContextInfo
+                    conformance="BLOCK_TRANSFER_WITH_ACTION,
+                                BLOCK_TRANSFER_WITH_SET_OR_WRITE,
+                                BLOCK_TRANSFER_WITH_GET_OR_READ,
+                                SET,
+                                SELECTIVE_ACCESS,
+                                MULTIPLE_REFERENCES,
+                                ACTION,
+                                GET,
+                                GENERAL_PROTECTION"
+                    maxReceivePduSize="128"
+                    maxSendPduSize="128"
+                    dlmsVersionNumber="6"
+                    qualityOfService="0"
+                    cypheringInfo="dedicated key"
+            />
+            <AuthenticationMechanismName
+                    jointIsoCtt="2"
+                    country="16"
+                    countryName="756"
+                    identifiedOrganization="5"
+                    dlmsUA="8"
+                    authenticationMechanismName="2"
+                    mechanismId="NO_SECURITY"
+            />
+        </AssociationLogicalName>
+        <AssociationLogicalName
+                obis="0.0.40.0.2.255"
+                secret="123456"
+                securitySetupReference="0.0.43.0.2.255"
+                userList="todo"
+        >
+            <ObjectList>
+                <!--<Object obis="0.0.40.0.2.255" description="Next association" />-->
+
+                <Object obis="0.0.1.0.0.255" description="Clock">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to quarter" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to measuring period" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to minute" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to preset time" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Preset adjusting time" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Shift time" />
+                    </Methods>
+                </Object>
+
+                <Object obis="0.0.42.0.0.255" description="Logical device name">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                </Object>
+                <Object obis="0.0.43.1.2.255" description="Invocation counter">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                </Object>
+                <Object obis="1.0.0.2.0.255" description="Firmware version">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                </Object>
+
+                <Object obis="0.0.25.0.0.255" description="TcpUdpSetup" />
+                <Object obis="0.0.25.1.0.255" description="IPv4Setup">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add mc IP address" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Delete mc IP address" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Get nbof mc IP addresses" />
+                    </Methods>
+                </Object>
+                <Object obis="0.0.25.2.0.255" description="Mac address setup" />
+
+                <Object obis="0.0.43.0.1.255" description="Security setup">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Security activate" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Key transfer" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Key agreement" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Generate key pair" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Generate certificate request" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Import certificate" />
+                        <Method index="7" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Export certificate" />
+                        <Method index="8" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove certificate" />
+                    </Methods>
+                </Object>
+
+                <Object obis="0.0.40.0.0.255" description="Current association" />
+                <Object obis="0.0.40.0.1.255" description="Association 1">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+                <Object obis="0.0.40.0.2.255" description="This association">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+                <Object obis="0.0.40.0.3.255" description="Association 3">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+                <Object obis="0.0.40.0.4.255" description="Association 4">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+
+                <Object obis="1.1.11.6.0.255" description="Register">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.1.1.8.0.255" description="Register">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.1.1.6.0.255" description="Register">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.1.2.6.0.255" description="Register">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.1.31.7.0.255" description="Register">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.1.51.7.0.255" description="Register">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.1.71.7.0.255" description="Register">
+                    <Attributes>
+                        <Attribute index="2" accessMode="DLMS_ACCESS_MODE_READ_WRITE" description="Value access"/>
+                    </Attributes>
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.1.255" description="Profile Generic 1">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.2.255" description="Profile Generic 2">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.3.255" description="Profile Generic 3">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.4.255" description="Profile Generic 4">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.5.255" description="Profile Generic 5">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.6.255" description="Profile Generic 6">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.7.255" description="Profile Generic 7">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.8.255" description="Profile Generic 8">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+
+
+            </ObjectList>
+            <AssociatedPartnersId
+                    clientSAP="0x11"
+            /> <!--  serverSAP= - set automatically with dlmsServerConfiguration(logicalAddress) -->
+            <ApplicationContextName
+                    jointIsoCtt="2"
+                    country="16"
+                    countryName="756"
+                    identifiedOrganization="5"
+                    dlmsUA="8"
+                    applicationContext="1"
+                    contextId="DLMS_APPLICATION_CONTEXT_NAME_LOGICAL_NAME"
+            />
+            <XDlmsContextInfo
+                    conformance="BLOCK_TRANSFER_WITH_ACTION,
+                                BLOCK_TRANSFER_WITH_SET_OR_WRITE,
+                                BLOCK_TRANSFER_WITH_GET_OR_READ,
+                                SET,
+                                SELECTIVE_ACCESS,
+                                MULTIPLE_REFERENCES,
+                                ACTION,
+                                GET,
+                                GENERAL_PROTECTION"
+                    maxReceivePduSize="128"
+                    maxSendPduSize="128"
+                    dlmsVersionNumber="6"
+                    qualityOfService="0"
+                    cypheringInfo="dedicated key"
+            />
+            <AuthenticationMechanismName
+                    jointIsoCtt="2"
+                    country="16"
+                    countryName="756"
+                    identifiedOrganization="5"
+                    dlmsUA="8"
+                    authenticationMechanismName="2"
+                    mechanismId="DLMS_AUTHENTICATION_LOW"
+            />
+        </AssociationLogicalName>
+        <AssociationLogicalName
+                obis="0.0.40.0.3.255"
+                secret="123456"
+                securitySetupReference="0.0.43.0.3.255"
+                userList="todo"
+        >
+            <ObjectList>
+                <!--<Object obis="0.0.40.0.2.255" description="Next association" />-->
+
+                <Object obis="0.0.1.0.0.255" description="Clock">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to quarter" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to measuring period" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to minute" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Adjust to preset time" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Preset adjusting time" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Shift time" />
+                    </Methods>
+                </Object>
+
+                <Object obis="0.0.42.0.0.255" description="Logical device name"/>
+                <Object obis="0.0.43.1.3.255" description="Invocation counter"/>
+                <Object obis="1.0.0.2.0.255" description="Firmware version"/>
+
+                <Object obis="0.0.25.0.0.255" description="TcpUdpSetup" />
+                <Object obis="0.0.25.1.0.255" description="IPv4Setup">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add mc IP address" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Delete mc IP address" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Get nbof mc IP addresses" />
+                    </Methods>
+                </Object>
+                <Object obis="0.0.25.2.0.255" description="Mac address setup" />
+
+                <Object obis="0.0.43.0.1.255" description="Security setup">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Security activate" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Key transfer" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Key agreement" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Generate key pair" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Generate certificate request" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Import certificate" />
+                        <Method index="7" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Export certificate" />
+                        <Method index="8" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove certificate" />
+                    </Methods>
+                </Object>
+
+                <Object obis="0.0.40.0.0.255" description="Current association" />
+                <Object obis="0.0.40.0.1.255" description="Association 1">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+                <Object obis="0.0.40.0.2.255" description="Association 2">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+                <Object obis="0.0.40.0.3.255" description="This association">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+                <Object obis="0.0.40.0.4.255" description="Association 4">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+
+
+                <Object obis="1.1.31.7.0.255" description="Register"/>
+                <Object obis="1.1.51.7.0.255" description="Register"/>
+                <Object obis="1.1.71.7.0.255" description="Register"/>
+
+                <Object obis="1.0.99.1.6.255" description="Profile Generic 6">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.7.255" description="Profile Generic 7">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+                <Object obis="1.0.99.1.8.255" description="Profile Generic 8">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reset access" />
+                    </Methods>
+                </Object>
+
+
+            </ObjectList>
+            <AssociatedPartnersId
+                    clientSAP="0x12"
+            /> <!--  serverSAP= - set automatically with dlmsServerConfiguration(logicalAddress) -->
+            <ApplicationContextName
+                    jointIsoCtt="2"
+                    country="16"
+                    countryName="756"
+                    identifiedOrganization="5"
+                    dlmsUA="8"
+                    applicationContext="1"
+                    contextId="DLMS_APPLICATION_CONTEXT_NAME_LOGICAL_NAME"
+            />
+            <XDlmsContextInfo
+                    conformance="BLOCK_TRANSFER_WITH_ACTION,
+                                BLOCK_TRANSFER_WITH_SET_OR_WRITE,
+                                BLOCK_TRANSFER_WITH_GET_OR_READ,
+                                SET,
+                                SELECTIVE_ACCESS,
+                                MULTIPLE_REFERENCES,
+                                ACTION,
+                                GET,
+                                GENERAL_PROTECTION"
+                    maxReceivePduSize="128"
+                    maxSendPduSize="128"
+                    dlmsVersionNumber="6"
+                    qualityOfService="0"
+                    cypheringInfo="dedicated key"
+            />
+            <AuthenticationMechanismName
+                    jointIsoCtt="2"
+                    country="16"
+                    countryName="756"
+                    identifiedOrganization="5"
+                    dlmsUA="8"
+                    authenticationMechanismName="2"
+                    mechanismId="DLMS_AUTHENTICATION_LOW"
+            />
+        </AssociationLogicalName>
+        <AssociationLogicalName
+                obis="0.0.40.0.4.255"
+                secret="123456"
+                securitySetupReference="0.0.43.0.4.255"
+                userList="todo"
+        >
+            <ObjectList>
+                <!--<Object obis="0.0.40.0.2.255" description="Next association" />-->
+
+                <Object obis="0.0.42.0.0.255" description="Logical device name"/>
+
+                <Object obis="0.0.40.0.0.255" description="Current association" />
+                <Object obis="0.0.40.0.4.255" description="This association">
+                    <Methods>
+                        <Method index="1" accessMode="DLMS_METHOD_ACCESS_MODE_ACCESS" description="Reply to HLS authentication" />
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Change HLS secret" />
+                        <Method index="3" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add object" />
+                        <Method index="4" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove object" />
+                        <Method index="5" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Add user" />
+                        <Method index="6" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Remove user" />
+                    </Methods>
+                </Object>
+
+                <Object obis="1.1.11.6.0.255" description="Register"/>
+                <Object obis="1.1.1.8.0.255" description="Register"/>
+                <Object obis="1.1.1.6.0.255" description="Register"/>
+                <Object obis="1.1.2.6.0.255" description="Register"/>
+                <Object obis="1.1.31.7.0.255" description="Register"/>
+                <Object obis="1.1.51.7.0.255" description="Register"/>
+                <Object obis="1.1.71.7.0.255" description="Register"/>
+
+
+                <Object obis="1.0.99.1.8.255" description="Profile Generic 8">
+                    <Methods>
+                        <Method index="2" accessMode="DLMS_METHOD_ACCESS_MODE_NONE" description="Capture access" />
+                    </Methods>
+                </Object>
+
+            </ObjectList>
+            <AssociatedPartnersId
+                    clientSAP="0x13"
+            /> <!--  serverSAP= - set automatically with dlmsServerConfiguration(logicalAddress) -->
+            <ApplicationContextName
+                    jointIsoCtt="2"
+                    country="16"
+                    countryName="756"
+                    identifiedOrganization="5"
+                    dlmsUA="8"
+                    applicationContext="1"
+                    contextId="DLMS_APPLICATION_CONTEXT_NAME_LOGICAL_NAME"
+            />
+            <XDlmsContextInfo
+                    conformance="BLOCK_TRANSFER_WITH_ACTION,
+                                BLOCK_TRANSFER_WITH_SET_OR_WRITE,
+                                BLOCK_TRANSFER_WITH_GET_OR_READ,
+                                SET,
+                                SELECTIVE_ACCESS,
+                                MULTIPLE_REFERENCES,
+                                ACTION,
+                                GET,
+                                GENERAL_PROTECTION"
+                    maxReceivePduSize="128"
+                    maxSendPduSize="128"
+                    dlmsVersionNumber="6"
+                    qualityOfService="0"
+                    cypheringInfo="dedicated key"
+            />
+            <AuthenticationMechanismName
+                    jointIsoCtt="2"
+                    country="16"
+                    countryName="756"
+                    identifiedOrganization="5"
+                    dlmsUA="8"
+                    authenticationMechanismName="2"
+                    mechanismId="DLMS_AUTHENTICATION_LOW"
+            />
+        </AssociationLogicalName>
+    </Objects>
+</Root>

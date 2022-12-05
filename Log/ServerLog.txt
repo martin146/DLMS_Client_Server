@@ -1,0 +1,106 @@
+[2022-12-02|14:35:47] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|14:35:47] [INFO] Server Running...
+[2022-12-02|14:35:47] [INFO] Starting server
+[2022-12-02|14:35:47] 	[ERROR] Error in starting server: [INIT_EXCEPTION] : Cannot bind listening socket to port 4059
+[2022-12-02|14:35:47] [INFO] ServerDirector::~ServerDirector() - Calling destructor
+[2022-12-02|14:37:51] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|14:37:51] [INFO] Server Running...
+[2022-12-02|14:37:51] [INFO] Starting server
+[2022-12-02|14:37:51] 	[ERROR] Error in starting server: [INIT_EXCEPTION] : Cannot bind listening socket to port 4059
+[2022-12-02|14:37:51] [INFO] ServerDirector::~ServerDirector() - Calling destructor
+[2022-12-02|14:40:12] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|14:40:12] [INFO] Server Running...
+[2022-12-02|14:40:12] [INFO] Starting server
+[2022-12-02|14:52:43] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|14:52:43] [INFO] Server Running...
+[2022-12-02|14:52:43] [INFO] Starting server
+[2022-12-02|14:58:04] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|14:58:04] [INFO] Server Running...
+[2022-12-02|14:58:04] [INFO] Starting server
+[2022-12-02|15:00:30] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:00:30] [INFO] Server Running...
+[2022-12-02|15:00:30] [INFO] Starting server
+[2022-12-02|15:11:17] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:11:17] [INFO] Server Running...
+[2022-12-02|15:11:17] [INFO] Starting server
+[2022-12-02|15:12:50] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:12:50] [INFO] Server Running...
+[2022-12-02|15:12:50] [INFO] Starting server
+[2022-12-02|15:14:48] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:14:48] [INFO] Server Running...
+[2022-12-02|15:14:48] [INFO] Starting server
+[2022-12-02|15:16:18] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:16:18] [INFO] Server Running...
+[2022-12-02|15:16:18] [INFO] Starting server
+[2022-12-02|15:30:49] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:30:49] [INFO] Server Running...
+[2022-12-02|15:30:49] [INFO] Starting server
+[2022-12-02|15:33:40] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:33:40] [INFO] Server Running...
+[2022-12-02|15:33:40] [INFO] Starting server
+[2022-12-02|15:36:42] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:36:42] [INFO] Server Running...
+[2022-12-02|15:36:42] [INFO] Starting server
+[2022-12-02|15:40:34] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:40:34] [INFO] Server Running...
+[2022-12-02|15:40:34] [INFO] Starting server
+[2022-12-02|15:42:48] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:42:48] [INFO] Server Running...
+[2022-12-02|15:42:48] [INFO] Starting server
+[2022-12-02|15:47:58] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:47:58] [INFO] Server Running...
+[2022-12-02|15:47:58] [INFO] Starting server
+[2022-12-02|15:48:30] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-02|15:48:30] [INFO] Server Running...
+[2022-12-02|15:48:30] [INFO] Starting server
+[2022-12-02|15:54:02] [INFO] Connected
+[2022-12-02|15:54:06] [INFO] Reading object: 0.0.40.0.1.255
+[2022-12-02|15:54:06] [INFO] Reading object is finished
+[2022-12-02|15:54:06] [INFO] Reading object: 1.1.1.8.0.255
+[2022-12-02|15:54:06] [INFO] Reading object is finished
+[2022-12-02|15:54:28] [INFO] Reading object: 0.0.1.0.0.255
+[2022-12-02|15:54:28] [INFO] Reading object is finished
+[2022-12-02|15:54:28] [INFO] Reading object: 0.0.1.0.0.255
+[2022-12-02|15:54:28] [INFO] Reading object is finished
+[2022-12-02|15:54:28] [INFO] Reading object: 0.0.1.0.0.255
+[2022-12-02|15:54:28] [INFO] Reading object is finished
+[2022-12-02|15:54:28] [INFO] Reading object: 0.0.1.0.0.255
+[2022-12-02|15:54:28] [INFO] Reading object is finished
+[2022-12-02|15:54:28] [INFO] Reading object: 0.0.1.0.0.255
+[2022-12-02|15:54:28] [INFO] Reading object is finished
+[2022-12-02|15:54:28] [INFO] Reading object: 0.0.1.0.0.255
+[2022-12-02|15:54:28] [INFO] Reading object is finished
+[2022-12-02|15:54:28] [INFO] Reading object: 0.0.1.0.0.255
+[2022-12-02|15:54:28] [INFO] Reading object is finished
+[2022-12-02|15:54:28] [INFO] Reading object: 0.0.1.0.0.255
+[2022-12-02|15:54:28] [INFO] Reading object is finished
+[2022-12-02|15:56:02] [INFO] Pre action of object: 1.1.1.8.0.255
+[2022-12-02|15:56:02] [INFO] Post action is finished
+[2022-12-02|15:56:02] [INFO] Reading object: 1.1.1.8.0.255
+[2022-12-02|15:56:02] [INFO] Reading object is finished
+[2022-12-02|15:57:13] [INFO] Pre action of object: 1.1.1.8.0.255
+[2022-12-02|15:57:13] [INFO] Post action is finished
+[2022-12-02|15:57:13] [INFO] Reading object: 1.1.1.8.0.255
+[2022-12-02|15:57:13] [INFO] Reading object is finished
+[2022-12-02|15:59:08] [INFO] Reading object: 1.1.1.8.0.255
+[2022-12-02|15:59:08] [INFO] Reading object is finished
+[2022-12-02|16:00:58] [INFO] Reading object is finished
+[2022-12-02|16:01:53] [INFO] Connected
+[2022-12-02|16:02:17] [INFO] Pre action of object: 1.1.1.8.0.255
+[2022-12-02|16:02:17] [INFO] Post action is finished
+[2022-12-02|16:02:17] [INFO] Reading object: 1.1.1.8.0.255
+[2022-12-02|16:02:17] [INFO] Reading object is finished
+[2022-12-02|16:02:42] [INFO] Writing to object: 1.1.1.8.0.255
+[2022-12-02|16:02:42] [INFO] Writing object is finished
+[2022-12-02|16:02:42] [INFO] Reading object: 1.1.1.8.0.255
+[2022-12-02|16:02:42] [INFO] Reading object is finished
+[2022-12-02|16:02:55] [INFO] Disconnected
+[2022-12-05|13:02:48] [INFO] ConfigParserServer::ConfigParserServer() Calling destructor
+[2022-12-05|13:02:48] [INFO] Server Running...
+[2022-12-05|13:02:48] [INFO] Starting server
+[2022-12-05|13:02:56] [INFO] Connected
+[2022-12-05|13:03:18] [INFO] Writing to object: 1.1.1.8.0.255
+[2022-12-05|13:03:18] [INFO] Writing object is finished
+[2022-12-05|13:03:18] [INFO] Reading object: 1.1.1.8.0.255
+[2022-12-05|13:03:18] [INFO] Reading object is finished
+[2022-12-05|13:03:33] [INFO] Disconnected

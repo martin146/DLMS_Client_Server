@@ -1,0 +1,35 @@
+Device Config:
+    nAme=012
+manufacturer=MCSs
+useLogicalNameReferencing=true
+authentication=NONE
+security=NONE
+//clientAddress=0x188
+password=123456
+waitTime=5000
+resendCount=38
+interfaceType=HDLC
+logicalServer=58
+physicalServer=44
+
+param1=value2
+
+TCP config:
+hostname=127.0.0.1
+port=9898
+ipTransportProtocol=TCP
+usegateway=true
+networkid=8
+phyDevAddress=jshy
+
+AutoReadParams:
+readTimingLoop = 5
+
+GXCoreConfig:
+trace=VERBOSE
+
+HDLC params:
+maxPayloadsizeInTransit=256
+maxPayloadsizeInReceive=512
+windowsizeintransit=2
+windowsizeinreceive=5

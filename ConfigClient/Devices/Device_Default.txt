@@ -1,0 +1,46 @@
+// Device Config:
+    nAme=alohA
+manufacturer=MCSs
+//serialNumber=25832
+conformance=
+conformance=
+conformance=
+SET
+GET
+EVENT_NOTIFICATION
+useLogicalNameReferencing=true
+authentication=NO_SECURITY
+security=DLMS_SECURITY_POLICY1_NOTHING
+clientAddress=0x10
+password=123456
+invocationCounter=1
+interfaceType=HDLC
+logicalServer=0x13
+physicalServer=0x79
+
+hostname=192.168.28.129
+port=4059
+ipTransportProtocol=TCP
+
+windowsizeintransit=4
+windowsizeinreceive=4
+serverAddressSize=2
+inactivityTimeout=50
+priority=NORMAL
+serviceClass=UNCONFIRMED
+maxPayloadsizeInTransit=1024
+maxPayloadsizeInReceive=1024
+maxPDUsize=65536
+
+userID=0x51
+sysTitle=0xABCDEF1213EF1213
+authenticationKey=0xABCDEF12134546784589124578452356
+blockCipherKey=0x12134546784589124578452356ABCDEF
+dedicatedKey=0x8452356ABCDEF1213454678458912457
+
+//AutoReadParams:
+//readTimingLoop = 5
+
+//GXCoreConfig:
+//trace=VERBOSE
+

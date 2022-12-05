@@ -1,0 +1,207 @@
+/**
+ * @file HatelCommunication.cpp
+ * @author Filip Grepl
+ * @brief Implementation of 'HatelCommunication' class
+ * @date 2021-10-08
+ *
+ * @copyright Copyright (c) 2020
+ *
+ */
+
+#include <cstdio>
+#include <stdlib.h>
+#include <ctime>
+#include <iostream>
+#include <HatelCommunication/HatelCommunication.h>
+#include <algorithm>
+#include <GURUX_DLMS/Objects/ParametersAndMeasurementData/GXDLMSRegister.h>
+#include <Exceptions/HatelCommunicationException.h>
+#include <Logger.h>
+#include <GURUX_DLMS/ExtendedObjects/GXDLMSRegisterE.h>
+
+pthread_mutex_t HatelCommunication::condition_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t HatelCommunication::condition = PTHREAD_COND_INITIALIZER;
+HATEL_NOTIFICATION_CONFIRM *HatelCommunication::itemConfirm = nullptr;
+HATEL_NOTIFICATION_DATA *HatelCommunication::itemData = nullptr;
+
+std::string *HatelCommunication::cidToGet = nullptr;
+LoadedUserConfiguration *HatelCommunication::loadedUserConfiguration = nullptr;
+
+CGXDLMSObjectCollection *HatelCommunication::dlmsServerObjects = nullptr;
+pthread_mutex_t *HatelCommunication::objectAccessMutex = nullptr;
+
+unsigned short HatelCommunication::GetNextAckNum() {
+    ++AckNum;
+    if (AckNum == 0) ++AckNum;
+    return AckNum;
+}
+
+void HatelCommunication::Get(std::string &cid) {
+    cidToGet = &cid;
+
+    const char *cid_const_str = cid.c_str();
+
+    if (cid.length() > 8 || cid.length() == 0) throw HatelCommunicationException("Invalid length of CID");
+
+    HATEL_ERR ret = HatelRequestData(&cid_const_str, 1, GetNextAckNum(), 1);
+    if (ret != HATEL_ERR_SUCCESS) throw HatelCommunicationException("Cannot send get reguest data to Hatel. Error code is: " + std::to_string(ret) + ".");
+
+    WaitForResponse();
+
+    if (itemData->Status != HATEL_ERR_SUCCESS) throw HatelCommunicationException("Cannot read value from hatel. Error code is: " + std::to_string(itemData->Status) + ".");
+
+}
+
+void HatelCommunication::Put(const std::string &cid, const CGXDLMSVariant &value, DLMS_DATA_TYPE dataType)
+{
+    struct timespec actTime;
+    int retVal;
+
+    if (cid.length() > 8 || cid.length() == 0) throw HatelCommunicationException("Invalid length of CID");
+
+    HATEL_SET_DATA_ITEM dataItem;
+    switch(dataType) {
+        case DLMS_DATA_TYPE_INT64:
+            dataItem.DataItem.Value.I64 = value.llVal;
+            dataItem.DataItem.ValueType = HATEL_VALUE_TYPE_INT64;
+            break;
+        case DLMS_DATA_TYPE_FLOAT64:
+            dataItem.DataItem.Value.Double = value.dblVal;
+            dataItem.DataItem.ValueType = HATEL_VALUE_TYPE_DOUBLE;
+        default:
+            throw HatelCommunicationException("The type of data: " + std::to_string(dataType) + "is not supported by hatel" );
+    }
+
+    if ((retVal = clock_gettime(CLOCK_REALTIME, &actTime))) throw HatelCommunicationException("Error in getting system time with return value: " + std::to_string(retVal) + ".");
+
+
+    dataItem.DataItem.Timestamp = actTime;
+    dataItem.DataItem.Cid = (char*)cid.c_str();
+    dataItem.DataItem.Quality = HATEL_FLAG_TYPE_GOOD;
+    dataItem.AckNum = GetNextAckNum();
+
+    HATEL_ERR ret = HatelSetData(&dataItem, 1, 1);
+
+    if (ret != HATEL_ERR_SUCCESS) throw HatelCommunicationException("Cannot insert put request to hatel queue!");
+
+    WaitForResponse();
+
+    if (itemConfirm->Status != HATEL_ERR_SUCCESS) throw HatelCommunicationException("Cannot read value from hatel. Error code is: " + std::to_string(itemData->Status) + ".");
+
+}
+
+HatelCommunication::HatelCommunication(LoadedUserConfiguration &loadedUserConfiguration,
+                                       CGXDLMSObjectCollection &dlmsServerObjects,
+                                       pthread_mutex_t &objectAccessMutex) {
+    HatelCommunication::loadedUserConfiguration = &loadedUserConfiguration;
+    HatelCommunication::dlmsServerObjects = &dlmsServerObjects;
+    HatelCommunication::objectAccessMutex = &objectAccessMutex;
+}
+
+void HatelCommunication::Initialize() {
+    AckNum = 1;
+    int ret;
+
+    // start Hatel
+    if ((ret = HatelRun(loadedUserConfiguration->getHatelConfiguration().getInQueue().c_str(),
+                        loadedUserConfiguration->getHatelConfiguration().getOutQueue().c_str(),
+                        loadedUserConfiguration->getHatelConfiguration().getMaxMsgLen(), Receive)) != HATEL_ERR_SUCCESS)
+    {
+        throw HatelCommunicationException("Unable to start receiving messages. Error code is: " + std::to_string(ret) + ".");
+    }
+
+    for (auto &&loadedObject : HatelCommunication::loadedUserConfiguration->getLoadedObjects()) {
+        if (loadedObject->GetObjectType() == DLMS_OBJECT_TYPE_REGISTER) {
+            if (loadedObject->GetObjectType() == DLMS_OBJECT_TYPE_REGISTER) {
+                CGXDLMSRegisterE *reg = (CGXDLMSRegisterE*) loadedObject;
+                this->Get((std::string &) reg->GetCid());
+            }
+        }
+    }
+}
+
+int HatelCommunication::StopHatelCommunication() const {
+    return HatelStop();
+}
+
+void HatelCommunication::Receive(const HATEL_NOTIFICATION_HDR *item) {
+    struct tm *Tm;
+
+    if (item->Code == HATEL_NOTIFICATION_CODE_CONFIRM) {
+        HatelCommunication::itemConfirm = (HATEL_NOTIFICATION_CONFIRM *) item;
+        printf("Type=CONFIRM Code=%d\n", HatelCommunication::itemConfirm->Status);
+    } else if (item->Code == HATEL_NOTIFICATION_CODE_REQUEST_DATA || item->Code == HATEL_NOTIFICATION_CODE_SPONTANEOUS_DATA) {
+
+        HatelCommunication::itemData = (HATEL_NOTIFICATION_DATA *) item;
+        Tm = gmtime(&(itemData->DataItem.Timestamp.tv_sec));
+        printf("Type=DATA, Id=%s, tm=%02d.%02d.%04d %02d:%02d:%02d.%03ld, fl=%u, int64=%lld, flt=%1.20g, ack=%u, chg=%u\n",
+               itemData->DataItem.Cid,
+               Tm->tm_mday, Tm->tm_mon + 1, Tm->tm_year + 1900, Tm->tm_hour, Tm->tm_min, Tm->tm_sec,
+               itemData->DataItem.Timestamp.tv_nsec / 1000000,
+               itemData->DataItem.Quality, itemData->DataItem.Value.I64, itemData->DataItem.Value.Double,
+               itemData->AckNum, itemData->DataItem.Changed);
+
+        // check if data is valid
+        if (itemData->DataItem.Quality == HATEL_FLAG_TYPE_GOOD) {
+            pthread_mutex_lock(HatelCommunication::objectAccessMutex);
+            auto findObject = std::find_if(HatelCommunication::loadedUserConfiguration->getLoadedObjects().begin(),
+                                           HatelCommunication::loadedUserConfiguration->getLoadedObjects().end(),
+                                           [&](CGXDLMSObject *o) {
+                                               if (o->GetObjectType() == DLMS_OBJECT_TYPE_REGISTER) {
+                                                   CGXDLMSRegisterE *reg = (CGXDLMSRegisterE*) o;
+                                                   return reg->GetCid() == itemData->DataItem.Cid;
+                                               } else
+                                                   return false;
+                                           });
+
+            // if cid corresponds with OBIS value
+            if (findObject != HatelCommunication::loadedUserConfiguration->getLoadedObjects().end()) {
+                CGXDLMSRegisterE *reg = (CGXDLMSRegisterE*) *findObject;
+                switch (itemData->DataItem.ValueType) {
+                    case HATEL_VALUE_TYPE_INT64:
+                        reg->GetValue() = HatelCommunication::itemData->DataItem.Value.I64;
+                        break;
+                    case HATEL_VALUE_TYPE_DOUBLE:
+                    default:
+                        reg->GetValue() = HatelCommunication::itemData->DataItem.Value.Double;
+                        break;
+                }
+            }
+            pthread_mutex_unlock(HatelCommunication::objectAccessMutex);
+        } else {
+            Logger::LogEvent(Logger::ERROR,
+                             std::string("Invalid quality flag in data message from hatel. Message is: Type=DATA, Id=")
+                                + itemData->DataItem.Cid + ", tm=" + std::to_string(Tm->tm_mday) + "." + std::to_string(Tm->tm_mon + 1) + "."
+                                + std::to_string(Tm->tm_year + 1900) + " " + std::to_string(Tm->tm_hour) + ":" + std::to_string(Tm->tm_min) + ":" + std::to_string(Tm->tm_sec)
+                                + "." + std::to_string(itemData->DataItem.Timestamp.tv_nsec / 1000000)
+                                + ", fl=" + std::to_string(itemData->DataItem.Quality) + ", int64= " + std::to_string(itemData->DataItem.Value.I64)
+                                + ", flt= " + std::to_string(itemData->DataItem.Value.Double) + " , ack=" + std::to_string(itemData->AckNum)
+                                + ", chg= " + std::to_string(itemData->DataItem.Changed) + "\n");
+        }
+    } else { // HATEL_NOTIFICATION_CODE_NONE
+    }
+
+    if (item->Code == HATEL_NOTIFICATION_CODE_CONFIRM ||
+            (item->Code == HATEL_NOTIFICATION_CODE_REQUEST_DATA && *HatelCommunication::cidToGet == itemData->DataItem.Cid) ) {
+        pthread_mutex_lock(&HatelCommunication::condition_mutex);
+        pthread_cond_signal(&HatelCommunication::condition);
+        pthread_mutex_unlock(&HatelCommunication::condition_mutex);
+    }
+}
+
+void HatelCommunication::WaitForResponse() const {
+    int ret;
+    struct timespec max_wait = {0, 0};
+
+    if ((ret = clock_gettime(CLOCK_REALTIME, &max_wait))) throw HatelCommunicationException("Error in getting system time with return value: " + std::to_string(ret) + ".");
+
+    max_wait.tv_sec += HatelCommunication::loadedUserConfiguration->getHatelConfiguration().getTimeout();
+
+    pthread_mutex_lock(&HatelCommunication::condition_mutex);
+    if ((ret = pthread_cond_timedwait(&HatelCommunication::condition, &HatelCommunication::condition_mutex, &max_wait))) {
+        pthread_mutex_unlock(&HatelCommunication::condition_mutex);
+        throw HatelCommunicationException(
+                "Error in waiting to hatel response. pthread_cond_timedwait return value is : " + std::to_string(ret));
+    }
+    pthread_mutex_unlock(&HatelCommunication::condition_mutex);
+}
